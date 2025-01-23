@@ -1,0 +1,43 @@
+<article class="register-container">
+  <section class="register-box">
+    <h2 class="section-heading">Create an Account</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Enter your name"
+      />
+      <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+        <small class="error">Name must be at least 3 characters.</small>
+      </div>
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="Enter your email"
+      />
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <small class="error">Please enter a valid email address.</small>
+      </div>
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="Enter your password"
+      />
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        <small class="error">Password must be at least 6 characters.</small>
+      </div>
+
+      <button type="submit" class="primary">
+        Register
+      </button>
+    </form>
+  </section>
+</article>

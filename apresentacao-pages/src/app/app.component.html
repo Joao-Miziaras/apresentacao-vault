@@ -18,11 +18,15 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <main>
   <header class="brand-name">
-    <img class="brand-name" src="/netbr-2023-white.png" alt="logo">
+    <img class="brand-logo" src="/netbr-2023.png" alt="logo" routerLink=''>
+    <div class="header-buttons">
+      <button type="button" routerLink="/login" class="login-button">Login</button>
+      <button type="button" routerLink="/cadastro" class="register-button">Cadastro</button>
+    </div>
   </header>
   <section class="content">
-    <app-home></app-home>
+    <router-outlet></router-outlet>
   </section>
 </main>
 
-<router-outlet />
+
