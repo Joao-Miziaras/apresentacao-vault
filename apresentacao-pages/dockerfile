@@ -1,0 +1,29 @@
+# Usar a imagem Node.js como base para construir o app
+FROM node:18 as build
+
+# Criar o diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copiar os arquivos package.json e package-lock.json
+COPY package*.json ./
+
+# Instalar as dependências
+RUN npm install
+
+# Copiar o restante dos arquivos do projeto
+COPY . .
+
+# Fazer o build da aplicação Angular
+RUN npm run build
+
+# Usar uma imagem Nginx como base para servir o app
+FROM nginx:alpine
+
+# Copiar os arquivos do build para o diretório padrão do Nginx
+COPY --from=build /app/dist/apresentacao-pages /usr/share/nginx/html
+
+# Expor a porta usada pelo Nginx
+EXPOSE 80
+
+# Comando padrão do Nginx
+CMD ["nginx", "-g", "daemon off;"]
