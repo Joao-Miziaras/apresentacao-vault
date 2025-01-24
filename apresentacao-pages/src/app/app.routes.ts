@@ -3,13 +3,14 @@ import { HomeComponent } from './home/home.component';
 import { DetailsComponent} from './details/details.component'
 import { LoginComponent } from './login/login.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
+import { StocksChartComponent } from './stocks-chart/stocks-chart.component';
 
 export const routes: Routes = [];
 
 const routeConfig: Routes = [
     {
         path: 'home',
-        component: HomeComponent,
+        component: StocksChartComponent,
         title: 'Home page'
     },
     {

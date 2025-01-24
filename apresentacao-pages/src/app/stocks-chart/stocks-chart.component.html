@@ -1,0 +1,27 @@
+<div class="stock-page">
+  <!-- Indicadores -->
+  <div class="indicators">
+    <div class="indicator">
+      <h4>COTAÇÃO</h4>
+      <p>R$ {{ latestStockPrice }}</p>
+    </div>
+    <div class="indicator">
+      <h4>VARIAÇÃO (12M)</h4>
+      <p [ngClass]="{'positive': variation >= 0, 'negative': variation < 0}">
+        {{ variation.toFixed(2) }}% <span *ngIf="variation >= 0">▲</span
+        ><span *ngIf="variation < 0">▼</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Gráfico -->
+  <div class="chart-container">
+    <h3></h3>
+    <canvas
+      baseChart
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      chartType="line">
+    </canvas>
+  </div>
+</div>

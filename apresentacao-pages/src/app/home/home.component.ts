@@ -3,18 +3,21 @@ import { CommonModule } from '@angular/common';
 import { HousingLocatingComponent } from '../housing-locating/housing-locating.component';
 import { Housinglocation  } from '../housinglocation';
 import { HousingService } from '../housing.service';
+import { StocksChartComponent } from "../stocks-chart/stocks-chart.component";
+
 @Component({
   selector: 'app-home',
-  imports: [HousingLocatingComponent, CommonModule],
+  imports: [HousingLocatingComponent, CommonModule, StocksChartComponent],
   template: `
-      <section> 
+      <!-- <section> 
         <form>
           <input type="text" placeholder="Filter by city" #filter>
           <button class="primary" type="button" (click)="filterResults(filter.value)">search</button>
         </form>
-      </section>
+      </section> -->
       <section class="results">
-        <app-housing-locating *ngFor="let housinglocation of filteredLocationList" [housingLocation]="housinglocation"></app-housing-locating>
+        <app-stocks-chart></app-stocks-chart>
+        <!-- <app-housing-locating *ngFor="let housinglocation of filteredLocationList" [housingLocation]="housinglocation"></app-housing-locating> -->
       </section>
   `,
   styleUrl: './home.component.scss'

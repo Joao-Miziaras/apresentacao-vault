@@ -1,34 +1,37 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; // Importar o Router
+import { Router } from '@angular/router';
+import { AuthService } from '../authservice.service';
+import { CommonModule } from '@angular/common'; // Importa o CommonModule
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-cadastro',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule], // Inclua CommonModule aqui
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss'],
 })
 export class CadastroComponent {
-  registerForm = new FormGroup({
+  cadastroForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
-  constructor(private router: Router) {} // Injetar o Router
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      console.log('Register Data:', this.registerForm.value);
-
-      // Exibir mensagem de sucesso (opcional)
-      alert('Registration Successful! Redirecting to login page...');
-
-      // Redirecionar para a página de login
-      this.router.navigate(['/login']);
-    } else {
-      alert('Invalid form data. Please try again.');
+    if (this.cadastroForm.valid) {
+      const { name, email, password } = this.cadastroForm.value;
+      this.authService.register(name!, email!, password!).subscribe({
+        next: () => {
+          alert('Cadastro realizado com sucesso!');
+          this.router.navigate(['/login']); // Redireciona para o login
+        },
+        error: (err) => {
+          alert('Erro ao cadastrar: ' + err.error.message);
+        },
+      });
     }
   }
 }
