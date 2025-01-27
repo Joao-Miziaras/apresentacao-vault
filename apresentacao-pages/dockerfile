@@ -1,5 +1,5 @@
 # ========== ETAPA 1: BUILD do Angular ==========
-FROM node:18 as build
+FROM node:19 as build
 
 # Define diretório de trabalho
 WORKDIR /app
