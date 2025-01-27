@@ -3,6 +3,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { StocksService } from '../stocks.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-stocks-chart',
   standalone: true,
@@ -19,8 +20,8 @@ export class StocksChartComponent implements OnInit {
         label: 'Stock Price',
         fill: true,
         tension: 0.5,
-        borderColor: '#28a745', // Cor verde
-        backgroundColor: 'rgba(40,167,69,0.3)', // Fundo translúcido
+        borderColor: '#28a745',
+        backgroundColor: 'rgba(40,167,69,0.3)',
       },
     ],
   };
@@ -36,7 +37,15 @@ export class StocksChartComponent implements OnInit {
   constructor(private stocksService: StocksService) {}
 
   ngOnInit(): void {
-    this.loadStockData();
+    this.generateAndLoadStockData();
+  }
+
+  generateAndLoadStockData(): void {
+    // Primeiro, gera os dados no backend
+    this.stocksService.generateStockData(10).subscribe(() => {
+      // Após a geração, carrega os dados no gráfico
+      this.loadStockData();
+    });
   }
 
   loadStockData(): void {
@@ -44,7 +53,9 @@ export class StocksChartComponent implements OnInit {
       // Reverte a ordem dos registros (do mais antigo para o mais recente)
       stocks.reverse();
 
-      const labels = stocks.map((stock) => new Date(stock.createdAt).toLocaleDateString('pt-BR'));
+      const labels = stocks.map((stock) =>
+        new Date(stock.createdAt).toLocaleDateString('pt-BR')
+      );
       const prices = stocks.map((stock) => stock.price);
 
       this.lineChartData.labels = labels;

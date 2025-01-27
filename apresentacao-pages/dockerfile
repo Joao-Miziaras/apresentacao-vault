@@ -1,29 +1,26 @@
-# Usar a imagem Node.js como base para construir o app
+# ========== ETAPA 1: BUILD do Angular ==========
 FROM node:18 as build
 
-# Criar o diretório de trabalho dentro do container
+# Define diretório de trabalho
 WORKDIR /app
 
-# Copiar os arquivos package.json e package-lock.json
+# Copia package.json e instala dependências
 COPY package*.json ./
-
-# Instalar as dependências
 RUN npm install
 
-# Copiar o restante dos arquivos do projeto
+# Copia todo o código-fonte
 COPY . .
 
-# Fazer o build da aplicação Angular
-RUN npm run build
+# Compila o Angular para produção (gera dist/apresentacao-pages)
+RUN npm run build -- --configuration=production
+# Se você tiver um script "build:prod" no package.json, pode usar:
+# RUN npm run build:prod
 
-# Usar uma imagem Nginx como base para servir o app
+# ========== ETAPA 2: Servir com Nginx ==========
 FROM nginx:alpine
 
-# Copiar os arquivos do build para o diretório padrão do Nginx
+# Copia os arquivos estáticos da pasta dist
 COPY --from=build /app/dist/apresentacao-pages /usr/share/nginx/html
 
-# Expor a porta usada pelo Nginx
 EXPOSE 80
-
-# Comando padrão do Nginx
 CMD ["nginx", "-g", "daemon off;"]
